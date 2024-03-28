@@ -9,6 +9,9 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [newBlogTitle, setNewBlogTitle] = useState('')
+  const [newBlogAuthor, setNewBlogAuthor] = useState('')
+  const [newBlogUrl, setNewBlogUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -55,6 +58,25 @@ const App = () => {
     setUser(null)
   }
 
+  const handleCreateBlog = async (event) => {
+    event.preventDefault()
+    try {
+      const newBlog = {
+        title: newBlogTitle,
+        author: newBlogAuthor,
+        url: newBlogUrl,
+      }
+
+      const createdBlog = await blogService.create(newBlog)
+      setBlogs([...blogs, createdBlog])
+      setNewBlogTitle('')
+      setNewBlogAuthor('')
+      setNewBlogUrl('')
+    } catch (error) {
+      console.error('Error creating blog:', error)
+    }
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <h2>Login</h2>
@@ -75,7 +97,7 @@ const App = () => {
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
-      </div>
+      </div><br />
       <button type="submit">login</button>
     </form>
   )
@@ -84,8 +106,21 @@ const App = () => {
     return (
       <div>
         <h2>Blogs</h2>
-        <p>{user.name} logged in <button type="button"
-        onClick={handleLogout}>logout</button></p>
+        <p>{user.name} logged in <button type="button" onClick={handleLogout}>logout</button></p>
+        <h2>Create new blog</h2>
+        <form onSubmit={handleCreateBlog}>
+          <div>
+            title: <input type="text" value={newBlogTitle} onChange={({ target }) => setNewBlogTitle(target.value)} />
+          </div>
+          <div>
+            author: <input type="text" value={newBlogAuthor} onChange={({ target }) => setNewBlogAuthor(target.value)} />
+          </div>
+          <div>
+            url: <input type="text" value={newBlogUrl} onChange={({ target }) => setNewBlogUrl(target.value)} />
+          </div><br />
+          <button type="submit">create</button>
+        </form><br />
+
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
