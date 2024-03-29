@@ -5,7 +5,7 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notification, setNotification] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -30,8 +30,6 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with', username, password)
-
     try {
       const user = await loginService.login({
         username, password,
@@ -45,17 +43,19 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      setNotification({ message: `Logged in as ${user.name}`, type: 'notification'} )
+      clearNotification()
     } catch (exception) {
-      setErrorMessage('wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      setNotification({ message: 'Wrong username or password', type: 'error'} )
+      clearNotification()
     }
   }
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogUser')
     setUser(null)
+    setNotification({ message: 'Logged out successfully', type: 'notification'} )
+    clearNotification()
   }
 
   const handleCreateBlog = async (event) => {
@@ -72,8 +72,11 @@ const App = () => {
       setNewBlogTitle('')
       setNewBlogAuthor('')
       setNewBlogUrl('')
+      setNotification({ message: `Blog "${newBlog.title}" added`, type: 'notification' })
+      clearNotification()
     } catch (error) {
-      console.error('Error creating blog:', error)
+      setNotification({ message: 'Please fill all input fields', type: 'error' })
+      clearNotification()
     }
   }
 
@@ -128,12 +131,33 @@ const App = () => {
     )
   }
 
+  const clearNotification = () => {
+    setTimeout(() => {
+      setNotification(null)
+    }, 3000)
+  }
+
   return (
     <div>
+      {notification && <Notification message={notification} />}
       {!user && loginForm()}
       {user && blogForm()}
     </div>
   )
+}
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+  if (message && message.type && message.message) {
+    const className = message.type === 'error' ? 'error' : 'notification'
+    return (
+      <div className={className}>
+        {message.message}
+      </div>
+    )
+  }
 }
 
 export default App
