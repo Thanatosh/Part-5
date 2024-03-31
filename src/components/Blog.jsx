@@ -1,10 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import blogService from '../services/blogs'
 
 const Blog = ({ blog }) => {
   const [showDetails, setShowDetails] = useState(false)
+  const [likes, setLikes] = useState(blog.likes)
+
+  useEffect(() => {
+    setLikes(blog.likes)
+  }, [blog.likes])
 
   const toggleDetails = () => {
     setShowDetails(!showDetails)
+  }
+
+  const handleLike = async () => {
+    try {
+      const updatedBlog = { ...blog, likes: likes + 1 }
+      await blogService.update(blog.id, updatedBlog)
+      setLikes(likes + 1)
+    } catch (error) {
+      console.log('Error liking blog:', error)
+    }
   }
 
   return (
@@ -16,7 +32,7 @@ const Blog = ({ blog }) => {
       {showDetails && (
         <div>
           <p>Url: {blog.url}</p>
-          <p>Likes: {blog.likes}</p>
+          <p>Likes: {likes} <button style={{ marginLeft: '6px' }} onClick={handleLike}>Like</button></p>
           <p>Added by: {blog.user.name}</p>
         </div>
       )}

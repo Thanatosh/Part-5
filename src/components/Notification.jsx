@@ -23,4 +23,4 @@ const Notification = ({ message, setNotification }) => {
   }
 }
 
-export default Notification;
+export default Notification

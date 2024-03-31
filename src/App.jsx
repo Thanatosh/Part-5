@@ -33,7 +33,7 @@ const App = () => {
       blogService.setToken(user.token)
       setUser(user)
       setNotification({ message: `Logged in as ${user.name}`, type: 'notification' })
-    } catch (exception) {
+    } catch (error) {
       setNotification({ message: 'Wrong username or password', type: 'error' })
     }
   }
