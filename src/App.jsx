@@ -60,7 +60,7 @@ const App = () => {
       <p>{user.name} logged in <button type="button" onClick={handleLogout}>Logout</button></p>
       <BlogForm handleCreateBlog={handleCreateBlog} />
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} user={user} />
       ))}
     </div>
   )

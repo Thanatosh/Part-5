@@ -26,7 +26,7 @@ const BlogForm = ({ handleCreateBlog }) => {
         <h2>Create new blog</h2>
       </div>
       <div style={hideWhenVisible}>
-        <button onClick={() => setBlogFormVisible(true)}>New Blog</button>
+        <button style={{ marginBottom: '15px' }} onClick={() => setBlogFormVisible(true)}>New Blog</button>
       </div>
       <div style={showWhenVisible}>
         <form onSubmit={handleSubmit}>
