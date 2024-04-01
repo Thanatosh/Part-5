@@ -47,20 +47,21 @@ const App = () => {
   const handleCreateBlog = async (newBlog) => {
     try {
       const createdBlog = await blogService.create(newBlog)
+      createdBlog.user = user
       setBlogs([...blogs, createdBlog])
       setNotification({ message: `Blog "${newBlog.title}" added`, type: 'notification' })
     } catch (error) {
       setNotification({ message: 'Please fill all input fields', type: 'error' })
     }
   }
-
+  
   const blogForm = () => (
     <div>
       <h2>Blogs</h2>
       <p>{user.name} logged in <button type="button" onClick={handleLogout}>Logout</button></p>
       <BlogForm handleCreateBlog={handleCreateBlog} />
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} user={user} />
+        <Blog key={blog.id} blog={blog} user={user} blogs={blogs} setBlogs={setBlogs} />
       ))}
     </div>
   )

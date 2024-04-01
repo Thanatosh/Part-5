@@ -24,3 +24,14 @@
     padding: 10px;
     margin-bottom: 10px;
 }
+
+#remove-button {
+    padding: 4px;
+    border-radius: 6px;
+    background-color: rgb(255, 105, 105);
+}
+
+#remove-button:hover {
+    cursor: pointer;
+    background-color: rgb(224, 69, 69);
+}

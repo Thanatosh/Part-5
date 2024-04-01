@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, blogs, setBlogs }) => {
   const [showDetails, setShowDetails] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
@@ -23,6 +23,17 @@ const Blog = ({ blog }) => {
     }
   }
 
+  const handleDelete = async () => {
+    if (window.confirm(`Do you wish to remove: "${blog.title}"?`)) {
+      try {
+        await blogService.remove(blog.id)
+        setBlogs(blogs.filter(b => b.id !== blog.id))
+      } catch (error) {
+        console.log('Error deleting blog:', error)
+      }
+    }
+  }
+
   return (
     <div className="blog-container">
       <div>
@@ -34,6 +45,7 @@ const Blog = ({ blog }) => {
           <p>Url: {blog.url}</p>
           <p>Likes: {likes} <button style={{ marginLeft: '6px' }} onClick={handleLike}>Like</button></p>
           <p>Added by: {blog.user.name}</p>
+          <button id="remove-button" onClick={handleDelete}>Delete</button>
         </div>
       )}
     </div>

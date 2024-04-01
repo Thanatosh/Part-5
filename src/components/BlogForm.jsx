@@ -10,15 +10,19 @@ const BlogForm = ({ handleCreateBlog }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    handleCreateBlog({
-      title: newBlogTitle,
-      author: newBlogAuthor,
-      url: newBlogUrl,
-    })
-    setNewBlogTitle('')
-    setNewBlogAuthor('')
-    setNewBlogUrl('')
-  }
+    try {
+      handleCreateBlog({
+        title: newBlogTitle,
+        author: newBlogAuthor,
+        url: newBlogUrl,
+      })
+      setNewBlogTitle('')
+      setNewBlogAuthor('')
+      setNewBlogUrl('')
+    } catch (error) {
+      console.error('Error creating blog:', error)
+    }
+  }  
 
   return (
     <div>
