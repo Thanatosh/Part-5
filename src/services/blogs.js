@@ -7,9 +7,10 @@ const setToken = newToken => {
   token = `Bearer ${newToken}`
 }
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+const getAll = async () => {
+  const response = await axios.get(baseUrl)
+  const sortedBlogs = response.data.sort((a, b) => b.likes - a.likes)
+  return sortedBlogs
 }
 
 const create = async newObject => {
