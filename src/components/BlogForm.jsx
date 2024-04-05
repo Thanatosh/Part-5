@@ -22,7 +22,7 @@ const BlogForm = ({ handleCreateBlog }) => {
     } catch (error) {
       console.error('Error creating blog:', error)
     }
-  }  
+  }
 
   return (
     <div>

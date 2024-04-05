@@ -14,7 +14,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogUser')
     setUser(null)
-    setNotification({ message: 'Logged out successfully', type: 'notification'} )
+    setNotification({ message: 'Logged out successfully', type: 'notification' } )
   }
 
   const handleCreateBlog = async (newBlog) => {
@@ -54,7 +54,7 @@ const App = () => {
       setNotification({ message: 'Please fill all input fields', type: 'error' })
     }
   }
-  
+
   const blogForm = () => (
     <div>
       <h2>Blogs</h2>
