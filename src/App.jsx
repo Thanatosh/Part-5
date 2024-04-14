@@ -55,13 +55,27 @@ const App = () => {
     }
   }
 
+  const handleLike = async (blogId) => {
+    try {
+      const blogToUpdate = blogs.find(blog => blog.id === blogId)
+      const updatedBlog = { ...blogToUpdate, likes: blogToUpdate.likes + 1 }
+      const response = await blogService.update(blogId, updatedBlog)
+      const updatedBlogs = blogs.map(blog =>
+        blog.id === blogId ? { ...blog, likes: response.likes } : blog
+      )
+      setBlogs(updatedBlogs)
+    } catch (error) {
+      setNotification({ message: 'Error liking blog', type: 'error' })
+    }
+  }
+
   const blogForm = () => (
     <div>
       <h2>Blogs</h2>
       <p>{user.name} logged in <button type="button" onClick={handleLogout}>Logout</button></p>
       <BlogForm handleCreateBlog={handleCreateBlog} />
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} user={user} blogs={blogs} setBlogs={setBlogs} />
+        <Blog key={blog.id} blog={blog} user={user} blogs={blogs} setBlogs={setBlogs} handleLike={() => handleLike(blog.id)} />
       ))}
     </div>
   )
