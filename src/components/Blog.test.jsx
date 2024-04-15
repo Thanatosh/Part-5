@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import BlogForm from './BlogForm'
 import Blog from './Blog'
 import { expect } from 'vitest'
 
@@ -64,4 +65,29 @@ test('Clicking the button twice calls event handler twice', async () => {
   await event.click(likeButton)
 
   expect(mockHandler.mock.calls).toHaveLength(2)
+})
+
+test('<BlogForm /> updates parent state and calls onSubmit', async () => {
+  const event = userEvent.setup()
+  const createBlog = vi.fn()
+
+  const { container } = render(<BlogForm handleCreateBlog={createBlog} />)
+
+  const newBlogButton = screen.getByText('New Blog')
+  await event.click(newBlogButton)
+
+  const inputTitle = container.querySelector('#title-input')
+  const inputAuthor = container.querySelector('#author-input')
+  const inputUrl = container.querySelector('#url-input')
+  const createButton = screen.getByText('Create')
+
+  await event.type(inputTitle, 'test title')
+  await event.type(inputAuthor, 'test author')
+  await event.type(inputUrl, 'test url')
+  await event.click(createButton)
+
+  expect(createBlog.mock.calls).toHaveLength(1)
+  expect(createBlog.mock.calls[0][0].title).toBe('test title')
+  expect(createBlog.mock.calls[0][0].author).toBe('test author')
+  expect(createBlog.mock.calls[0][0].url).toBe('test url')
 })
