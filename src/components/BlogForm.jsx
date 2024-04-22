@@ -35,13 +35,13 @@ const BlogForm = ({ handleCreateBlog }) => {
       <div style={showWhenVisible}>
         <form onSubmit={handleSubmit}>
           <div>
-            title: <input type="text" value={newBlogTitle} id='title-input' onChange={(e) => setNewBlogTitle(e.target.value)} />
+            title: <input type="text" value={newBlogTitle} data-testid='title-input' id='title-input' onChange={(e) => setNewBlogTitle(e.target.value)} />
           </div>
           <div>
-            author: <input type="text" value={newBlogAuthor} id='author-input' onChange={(e) => setNewBlogAuthor(e.target.value)} />
+            author: <input type="text" value={newBlogAuthor} data-testid='author-input' id='author-input' onChange={(e) => setNewBlogAuthor(e.target.value)} />
           </div>
           <div>
-            url: <input type="text" value={newBlogUrl} id='url-input' onChange={(e) => setNewBlogUrl(e.target.value)} />
+            url: <input type="text" value={newBlogUrl} data-testid='url-input' id='url-input' onChange={(e) => setNewBlogUrl(e.target.value)} />
           </div><br />
           <button type="submit" onClick={() => setBlogFormVisible(false)}>Create</button>
           <button type="button" onClick={() => setBlogFormVisible(false)}>Cancel</button>

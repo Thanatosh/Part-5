@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, blogs, setBlogs, handleLike }) => {
+const Blog = ({ blog, blogs, setBlogs, handleLike, user }) => {
   const [showDetails, setShowDetails] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
+  const isCreator = user && user.username === blog.user.username
 
   useEffect(() => {
     setLikes(blog.likes)
@@ -33,9 +34,9 @@ const Blog = ({ blog, blogs, setBlogs, handleLike }) => {
       {showDetails && (
         <div>
           <p>Url: {blog.url}</p>
-          <p>Likes: {likes} <button style={{ marginLeft: '6px' }} onClick={handleLike}>Like</button></p>
+          <p className='likes'>Likes: {likes} <button style={{ marginLeft: '6px' }} onClick={handleLike}>Like</button></p>
           <p>Added by: {blog.user.name}</p>
-          <button id="remove-button" onClick={handleDelete}>Delete</button>
+          {isCreator && (<button id="remove-button" onClick={handleDelete}>Delete</button>)}
         </div>
       )}
     </div>

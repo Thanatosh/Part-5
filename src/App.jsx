@@ -63,6 +63,7 @@ const App = () => {
       const updatedBlogs = blogs.map(blog =>
         blog.id === blogId ? { ...blog, likes: response.likes } : blog
       )
+      updatedBlogs.sort((a, b) => b.likes - a.likes)
       setBlogs(updatedBlogs)
     } catch (error) {
       setNotification({ message: 'Error liking blog', type: 'error' })
